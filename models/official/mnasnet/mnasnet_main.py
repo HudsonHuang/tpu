@@ -736,7 +736,7 @@ def main(unused_argv):
   if FLAGS.use_async_checkpointing:
     save_checkpoints_steps = None
   else:
-    save_checkpoints_steps = max(100, FLAGS.iterations_per_loop)
+    save_checkpoints_steps = None
   config = tf.contrib.tpu.RunConfig(
       cluster=tpu_cluster_resolver,
       model_dir=FLAGS.model_dir,
