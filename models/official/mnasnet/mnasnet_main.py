@@ -33,12 +33,23 @@ from tensorflow.contrib.training.python.training import evaluation
 from tensorflow.core.protobuf import rewriter_config_pb2
 from tensorflow.python.estimator import estimator
 from tensorflow.python.keras import backend as K
+from google.colab import auth
 
 FLAGS = flags.FLAGS
 
 FAKE_DATA_DIR = 'gs://cloud-tpu-test-datasets/fake_imagenet'
-TPU_PATH = 'grpc://' + os.environ['COLAB_TPU_ADDR']
-print(TPU_PATH)
+
+if 'COLAB_TPU_ADDR' in os.environ:
+  auth.authenticate_user()
+
+  TPU_PATH = 'grpc://' + os.environ['COLAB_TPU_ADDR']
+
+  # Authenticate TPU to use GCS Bucket.
+  with tf.Session(TPU_PATH) as sess:
+    with open('/content/adc.json', 'r') as file_:
+      auth_info = json.load(file_)
+    tf.contrib.cloud.configure_gcs(sess, credentials=auth_info)
+
 
 flags.DEFINE_bool(
     'use_tpu',
@@ -883,5 +894,6 @@ def main(unused_argv):
 
 
 if __name__ == '__main__':
+  print("TPU_PATH",TPU_PATH)
   tf.logging.set_verbosity(tf.logging.INFO)
   app.run(main)
