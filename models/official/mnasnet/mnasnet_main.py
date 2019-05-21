@@ -48,7 +48,7 @@ flags.DEFINE_bool(
 # Cloud TPU Cluster Resolvers
 flags.DEFINE_string(
     'tpu',
-    default=None,
+    default='grpc://' + os.environ['COLAB_TPU_ADDR'],
     help='The Cloud TPU to use for training. This should be either the name '
     'used when creating the Cloud TPU, or a grpc://ip.address.of.tpu:8470 url.')
 
@@ -73,7 +73,7 @@ flags.DEFINE_string(
 
 flags.DEFINE_string(
     'model_dir',
-    default=None,
+    default="./",
     help=('The directory where the model and training/evaluation summaries are'
           ' stored.'))
 
