@@ -37,6 +37,8 @@ from tensorflow.python.keras import backend as K
 FLAGS = flags.FLAGS
 
 FAKE_DATA_DIR = 'gs://cloud-tpu-test-datasets/fake_imagenet'
+TPU_PATH = 'grpc://' + os.environ['COLAB_TPU_ADDR']
+print(TPU_PATH)
 
 flags.DEFINE_bool(
     'use_tpu',
@@ -48,7 +50,7 @@ flags.DEFINE_bool(
 # Cloud TPU Cluster Resolvers
 flags.DEFINE_string(
     'tpu',
-    default='grpc://' + os.environ['COLAB_TPU_ADDR'],
+    default=TPU_PATH,
     help='The Cloud TPU to use for training. This should be either the name '
     'used when creating the Cloud TPU, or a grpc://ip.address.of.tpu:8470 url.')
 
