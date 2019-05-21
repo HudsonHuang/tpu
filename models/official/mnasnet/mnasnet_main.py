@@ -39,16 +39,11 @@ FLAGS = flags.FLAGS
 
 FAKE_DATA_DIR = 'gs://cloud-tpu-test-datasets/fake_imagenet'
 
-if 'COLAB_TPU_ADDR' in os.environ:
-  auth.authenticate_user()
-
-  TPU_PATH = 'grpc://' + os.environ['COLAB_TPU_ADDR']
-
-  # Authenticate TPU to use GCS Bucket.
-  with tf.Session(TPU_PATH) as sess:
-    with open('/content/adc.json', 'r') as file_:
-      auth_info = json.load(file_)
-    tf.contrib.cloud.configure_gcs(sess, credentials=auth_info)
+if 'COLAB_TPU_ADDR' not in os.environ:
+  print('ERROR: Not connected to a TPU runtime; please see the first cell in this notebook for instructions!')
+else:
+  tpu_address = 'grpc://' + os.environ['COLAB_TPU_ADDR']
+  print ('TPU address is', tpu_address)
 
 
 flags.DEFINE_bool(
@@ -61,7 +56,7 @@ flags.DEFINE_bool(
 # Cloud TPU Cluster Resolvers
 flags.DEFINE_string(
     'tpu',
-    default=TPU_PATH,
+    default=tpu_address,
     help='The Cloud TPU to use for training. This should be either the name '
     'used when creating the Cloud TPU, or a grpc://ip.address.of.tpu:8470 url.')
 
@@ -894,6 +889,6 @@ def main(unused_argv):
 
 
 if __name__ == '__main__':
-  print("TPU_PATH",TPU_PATH)
+  print("TPU_PATH",tpu_address)
   tf.logging.set_verbosity(tf.logging.INFO)
   app.run(main)
