@@ -534,15 +534,15 @@ def mnasnet_model_fn(features, labels, mode, params):
         # Host call fns are executed FLAGS.iterations_per_loop times after one
         # TPU loop is finished, setting max_queue value to the same as number of
         # iterations will make the summary writer only flush the data to storage
-        # once per loop.
-        with tf.contrib.summary.create_file_writer(
-            FLAGS.model_dir, max_queue=FLAGS.iterations_per_loop).as_default():
-          with tf.contrib.summary.always_record_summaries():
-            tf.contrib.summary.scalar('loss', loss[0], step=gs)
-            tf.contrib.summary.scalar('learning_rate', lr[0], step=gs)
-            tf.contrib.summary.scalar('current_epoch', ce[0], step=gs)
+#         # once per loop.
+#         with tf.contrib.summary.create_file_writer(
+#             FLAGS.model_dir, max_queue=FLAGS.iterations_per_loop).as_default():
+#           with tf.contrib.summary.always_record_summaries():
+#             tf.contrib.summary.scalar('loss', loss[0], step=gs)
+#             tf.contrib.summary.scalar('learning_rate', lr[0], step=gs)
+#             tf.contrib.summary.scalar('current_epoch', ce[0], step=gs)
 
-            return tf.contrib.summary.all_summary_ops()
+#             return tf.contrib.summary.all_summary_ops()
 
       # To log the loss, current learning rate, and epoch for Tensorboard, the
       # summary op needs to be run on the host CPU via host_call. host_call
