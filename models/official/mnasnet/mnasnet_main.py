@@ -81,7 +81,7 @@ flags.DEFINE_string(
 
 flags.DEFINE_string(
     'model_dir',
-    default="/content/tpu/models/official/mnasnet/",
+    default="gs://",
     help=('The directory where the model and training/evaluation summaries are'
           ' stored.'))
 
